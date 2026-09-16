@@ -57,11 +57,13 @@ connections. Requests are spaced ~150ms; 429 is retried once per `Retry-After`.
 ## State of the work
 
 - `craft-conn.py` is verified against Mark's real space (REWILD): `--list`, `--tree`,
-  `--doc`, auth, and error paths. The Gemini call is verified as far as a live 400 from
-  a bad key; never yet run with a valid key end to end.
-- **`design.py` has never run against a live Gemini key.** The REPL, streaming, `/add`,
-  and `/craft` are all unexercised. `/craft` writes to the real Craft space — it only
-  ever creates new documents, never overwrites, and confirms y/N first. Keep it that way.
+  `--doc`, auth, and error paths, and now also a full Gemini call with a valid key
+  (`--list-models` and a live completion both succeeded 2026-09-15).
+- `design.py` ran end-to-end against the real space and a valid Gemini key on
+  2026-09-15: draft + folder load, streaming reply, `/context`, a follow-up turn, and
+  session save all worked. `/add`, `/drop`, and `/craft` are still unexercised.
+  `/craft` writes to the real Craft space — it only ever creates new documents, never
+  overwrites, and confirms y/N first. Keep it that way.
 - The MCP path in `craft-conn.py` works against a local MCP server but has never
   completed Craft's real OAuth handshake.
 - `tests/` holds fake Craft servers covering each shape. Use them instead of the live
