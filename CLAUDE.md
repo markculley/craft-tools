@@ -61,9 +61,11 @@ connections. Requests are spaced ~150ms; 429 is retried once per `Retry-After`.
   (`--list-models` and a live completion both succeeded 2026-09-15).
 - `design.py` ran end-to-end against the real space and a valid Gemini key on
   2026-09-15: draft + folder load, streaming reply, `/context`, a follow-up turn, and
-  session save all worked. `/add`, `/drop`, and `/craft` are still unexercised.
-  `/craft` writes to the real Craft space — it only ever creates new documents, never
-  overwrites, and confirms y/N first. Keep it that way.
+  session save all worked. `/add` also verified (2026-09-15): resolves a partial
+  title, loads it into the working set, and tells the model in-band. `/drop` and
+  `/craft` are still unexercised. `/craft` writes to the real Craft space — it only
+  ever creates new documents, never overwrites, and confirms y/N first. Keep it that
+  way.
 - The MCP path in `craft-conn.py` works against a local MCP server but has never
   completed Craft's real OAuth handshake.
 - `tests/` holds fake Craft servers covering each shape. Use them instead of the live
