@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Never commit credentials or session state.
+.env
+oauth-*.json
+sessions/
+last-analysis.md
