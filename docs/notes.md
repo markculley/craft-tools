@@ -51,5 +51,9 @@ connections. Requests are spaced ~150ms; 429 is retried once per `Retry-After`.
 - There is **no official API to push content into the Gemini macOS app** or a Gem.
   Only reverse-engineered cookie-driven libraries, which are not worth it. The
   supported bridge is `--dry-run --out file.md`, then attach the file in the app.
+- Flash returns transient 503s ("high demand") under normal use, not just at scale — a
+  live `design.py` session hit one. `stream_reply()` calls in the REPL loop are each
+  wrapped individually so one failing turn doesn't kill the whole session (it used to
+  propagate to `main()` and exit, skipping the session save entirely).
 - `--project` means a **Google Cloud project via Vertex AI** (needs ADC, not an API
   key). It is unrelated to the Gemini app's notion of projects.

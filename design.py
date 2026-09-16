@@ -308,7 +308,10 @@ def run_session(client: CraftWorkspace, gem, working: WorkingSet, model: str, pr
     print(BANNER)
 
     print("> (reading)\n")
-    turns.append(("Gemini", stream_reply(chat, f"{prompt.strip()}\n\n{working.as_prompt()}\n\n{OPENING}")))
+    try:
+        turns.append(("Gemini", stream_reply(chat, f"{prompt.strip()}\n\n{working.as_prompt()}\n\n{OPENING}")))
+    except CraftConnError as exc:
+        print(f"{exc}\n")
 
     while True:
         try:
@@ -346,11 +349,14 @@ def run_session(client: CraftWorkspace, gem, working: WorkingSet, model: str, pr
             print(f"Loaded {names}.\n")
             # Tell the model in-band so it can use the new material immediately.
             block = "\n\n".join(f"--- RESEARCH: {t} ---\n{b}\n--- END RESEARCH ---" for t, b in loaded)
-            turns.append(("Gemini", stream_reply(
-                chat,
-                f"Additional research has been added to our context:\n\n{block}\n\n"
-                "Note briefly what in here bears on the draft. Do not re-summarise it.",
-            )))
+            try:
+                turns.append(("Gemini", stream_reply(
+                    chat,
+                    f"Additional research has been added to our context:\n\n{block}\n\n"
+                    "Note briefly what in here bears on the draft. Do not re-summarise it.",
+                )))
+            except CraftConnError as exc:
+                print(f"{exc}\n")
             continue
 
         if message.startswith("/drop"):
@@ -377,7 +383,10 @@ def run_session(client: CraftWorkspace, gem, working: WorkingSet, model: str, pr
             continue
 
         turns.append(("Mark", message))
-        turns.append(("Gemini", stream_reply(chat, message)))
+        try:
+            turns.append(("Gemini", stream_reply(chat, message)))
+        except CraftConnError as exc:
+            print(f"{exc}\n")
 
     if turns:
         path = save_session(_slug(label), turns, working)
