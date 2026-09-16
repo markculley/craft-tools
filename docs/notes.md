@@ -18,8 +18,8 @@ fallback for connections that ignore the header.
 **`/documents` is flat; `/folders` is the hierarchy.** Listing documents without a
 filter returns everything with no structure. `documents_in()` includes subfolders, so
 the tree walk subtracts what child folders already claimed to avoid double-counting.
-That subtraction is still unverified against real nesting — Mark's space had no
-subfolders as of 2026-09-15.
+Verified against real nesting on 2026-09-15 (Rulebook/Test, one document each): `--list`
+attributed each document to its own folder with no double-counting.
 
 **A "folder" in Craft's sidebar is often a document with sub-pages.** `GET /blocks`
 defaults to `maxDepth=-1`, so `--doc` already pulls the whole subtree. `--tree` shows
