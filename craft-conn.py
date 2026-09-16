@@ -7,7 +7,7 @@ analysis.
 
 Quick start:
 
-    export CRAFT_API_ENDPOINT="https://connect.craft.do/links/15DUMUz71O5/api/v1"
+    export CRAFT_API_ENDPOINT="https://connect.craft.do/links/<id>/api/v1"
     export GEMINI_API_KEY="..."            # or use --project for Vertex AI
     ./craft-conn.py
 
